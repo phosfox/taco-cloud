@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import tacos.Design;
 import tacos.Taco;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -43,7 +46,10 @@ public class DesignTacoController {
     }
 
     @PostMapping
-    public String processDesign(Design design) {
+    public String processDesign(@Valid Taco design, Errors errors) {
+        if (errors.hasErrors()) {
+            return "design";
+        }
         // in chap 3
         log.info("Processing design: " + design);
 
